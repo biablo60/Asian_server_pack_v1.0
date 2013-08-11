@@ -6,7 +6,7 @@ You may change the loading screen but not edit mine must make your own
 http://dayzepoch.com/forum/index.php?/topic/945-release-asian-server-pack/
 
 My webiste
-http://15647b.bodisparking.com/dayzfallendead.cu.cc
+http://dayzfallendead.cu.cc/
 
 My Server
 5.63.144.180:3170
