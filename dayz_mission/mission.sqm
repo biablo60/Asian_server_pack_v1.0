@@ -10,9 +10,16 @@ class Mission
 		"dayz_communityassets",
 		"dayz_weapons",
 		"dayz_equip",
+		"dayz_epoch",
 		"dayz_vehicles",
 		"cacharacters_pmc",
-		"ca_modules_functions"
+		"ca_modules_functions",
+		"glt_m300t",
+		"sigisolda",
+		"suv_col",
+		"csj_gyroac",
+		"map_eu",
+		"jetskiyanahuiaddon"
 	};
 	addOnsAuto[]=
 	{
@@ -23,8 +30,8 @@ class Mission
 	randomSeed=11171215;
 	class Intel
 	{
-		briefingName="DayZ Mod";
-		briefingDescription="DayZ Mod (Alpha Version)";
+		briefingName="DayZ Epoch Chernarus";
+		briefingDescription="DayZ Epoch Chernarus Private Server";
 		startWeather=0.067362607;
 		forecastWeather=0.52341133;
 		year=2008;
@@ -1166,7 +1173,7 @@ class Mission
 	};
 	class Markers
 	{
-		items=7;
+		items=17;
 		class Item0
 		{
 			position[]={7839.6055,381.33774,8414.7324};
@@ -1208,6 +1215,189 @@ class Mission
 			position[]={13510.764,0.44504455,5249.3027};
 			name="spawn4";
 			type="Empty";
+		};
+		class Item7
+		{
+			position[]={6326.4805,304.99265,7809.4888};
+			name="Tradercitystary";
+			text="Trader City Stary";
+			type="mil_circle";
+			colorName="ColorGreen";
+		};
+		class Item8
+		{
+			position[]={4361.4937,3,2259.9526};
+			name="wholesaleSouth";
+			text="Wholesaler";
+			type="mil_dot";
+			colorName="ColorGreen";
+		};
+		class Item9
+		{
+			position[]={13532.614,3.0083523,6355.9497};
+			name="boatTraderEast";
+			text="Wholesaler";
+			type="mil_dot";
+			colorName="ColorGreen";
+		};
+		class Item10
+		{
+			position[]={7989.3354,0.30462033,2900.9946};
+			name="BoatDealerSouth";
+			text="Boat Dealer";
+			type="mil_dot";
+			colorName="ColorGreen";
+		};
+		class Item11
+		{
+			position[]={12060.471,158.85699,12638.533};
+			name="AirVehicles";
+			text="Aircraft Dealer";
+			type="mil_dot";
+			colorName="ColorGreen";
+		};
+		class Item12
+		{
+			position[]={1606.6443,289.70795,7803.5156};
+			name="BanditDen";
+			text="Bandit Camp";
+			type="mil_dot";
+			colorName="ColorRed";
+		};
+		class Item13
+		{
+			position[]={11447.91,317.27109,11364.536};
+			name="Klen";
+			text="Trader City Klen";
+			type="mil_circle";
+			colorName="ColorGreen";
+		};
+		class Item14
+		{
+			position[]={13441.16,1.1406164,5429.3013};
+			name="BoatDealerEast";
+			text="Boat Dealer";
+			type="mil_dot";
+			colorName="ColorGreen";
+		};
+		class Item15
+		{
+			position[]={4064.2258,365.13501,11665.938};
+			name="TradercityBash";
+			text="Trader City Bash";
+			type="mil_circle";
+			colorName="ColorGreen";
+		};
+		class Item16
+		{
+			position[]={12944.227,210.19823,12766.889};
+			name="HeroTrader";
+			text="Hero Camp";
+			type="mil_dot";
+			colorName="ColorBlue";
+		};
+	};
+	class Sensors
+	{
+		items=6;
+		class Item0
+		{
+			position[]={6325.6772,304.99033,7807.7412};
+			a=100;
+			b=100;
+			activationBy="WEST";
+			repeating=1;
+			interruptable=1;
+			age="UNKNOWN";
+			name="zonestary";
+			expCond="(player distance zonestary) < 100;";
+			expActiv="TitleText[""Now entering trader city Stary"",""PLAIN DOWN""]; canbuild = false;";
+			expDesactiv="TitleText[""Now leaving trader city Stary"",""PLAIN DOWN""]; canbuild = true;";
+			class Effects
+			{
+			};
+		};
+		class Item1
+		{
+			position[]={6325.6772,304.99033,7807.7412};
+			activationBy="WEST";
+			repeating=1;
+			interruptable=1;
+			age="UNKNOWN";
+			name="zone1_safe";
+			expCond="(player distance zone1_safe) < 150;";
+			expActiv="inSafeZone = true;";
+			expDesactiv="inSafeZone = false;";
+			class Effects
+			{
+			
+			};
+		};
+		class Item2
+		{
+			position[]={4063.4226,365.00577,11664.19};
+			a=100;
+			b=100;
+			activationBy="WEST";
+			repeating=1;
+			interruptable=1;
+			age="UNKNOWN";
+			name="zonebash";
+			expCond="(player distance zonebash) < 100;";
+			expActiv="TitleText[""Now entering trader city Bash"",""PLAIN DOWN""]; canbuild = false;";
+			expDesactiv="TitleText[""Now leaving trader city Bash"",""PLAIN DOWN""]; canbuild = true;";
+			class Effects
+			{
+			};
+		};
+		class Item3
+		{
+			position[]={4063.4226,365.00577,11664.19};
+			activationBy="WEST";
+			repeating=1;
+			interruptable=1;
+			age="UNKNOWN";
+			name="zone2_safe";
+			expCond="(player distance zone2_safe) < 150;";
+			expActiv="inSafeZone = true;";
+			expDesactiv="inSafeZone = false;";
+			class Effects
+			{
+			
+			};
+		};		
+		class Item4
+		{
+			position[]={11447.472,317.26886,11364.504};
+			a=100;
+			b=100;
+			activationBy="WEST";
+			repeating=1;
+			interruptable=1;
+			age="UNKNOWN";
+			name="zoneklen";
+			expCond="(player distance zoneklen) < 100;";
+			expActiv="TitleText[""Now entering trader city Klen"",""PLAIN DOWN""]; canbuild = false;";
+			expDesactiv="TitleText[""Now leaving trader city Klen"",""PLAIN DOWN""]; canbuild = true;";
+			class Effects
+			{
+			};
+		};
+		class Item5
+		{
+			position[]={11447.472,317.26886,11364.504};
+			activationBy="WEST";
+			repeating=1;
+			interruptable=1;
+			age="UNKNOWN";
+			name="zone3_safe";
+			expCond="(player distance zone3_safe) < 150;";
+			expActiv="inSafeZone = true;";
+			expDesactiv="inSafeZone = false;";
+			class Effects
+			{
+			
+			};
 		};
 	};
 };

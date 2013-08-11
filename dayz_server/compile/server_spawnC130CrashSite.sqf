@@ -40,7 +40,7 @@ while {true} do {
 	_timeToSpawn = time + _frequency + _timeAdjust;
 
 	//Random Heli-Type
-	_heliModel = ["C130J"] call BIS_fnc_selectRandom;
+	_heliModel = ["AN2_DZ"] call BIS_fnc_selectRandom;
 
 	//Random-Startpositions, Adjust this for other Maps then Chernarus
 	_heliStart = [[6993.7007,173.05298,300],[1623.715,218.18848,300]] call BIS_fnc_selectRandom;
@@ -49,7 +49,7 @@ while {true} do {
 	_safetyPoint = [7492.6675, 15263.042];
 
 	//Settings for the Standard UH1H_DZ
-	_crashModel = "C130JWreck";
+	_crashModel = "AN2Wreck";
 	_exploRange = 195;
 	_lootRadius = 0.55;
 

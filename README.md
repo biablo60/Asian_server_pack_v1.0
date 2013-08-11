@@ -2,6 +2,7 @@ Asian_server_pack
 =================
 
 This is made by B6 Media (Asian Kid) for Cherno Epoch
+You may change the loading screen but not edit mine must make your own
 
 HOW TO INSTALL
  

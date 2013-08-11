@@ -177,23 +177,76 @@ _this setMarkerBrush "Solid";
 _this setMarkerSize [1000, 600];
 SAR_marker_helipatrol_neaf = _this;
 
-
-_this = createMarker ["SAR_marker_DEBUG_veh", [1951.4304, 11905.569]];
-_this setMarkerShape "RECTANGLE";
-_this setMarkeralpha 0;
-_this setMarkerType "Flag";
-_this setMarkerBrush "Solid";
-_this setMarkerSize [300, 1000];
-_this setMarkerDir -19.085985;
-SAR_marker_DEBUG_veh = _this;
-
-_this = createMarker ["SAR_marker_DEBUG_devilscastle", [6913.47,11437.2,0.001]];
+// Sector FNG - Front Base Patrol Area
+_this = createMarker ["SAR_marker_sectorfng_front", [6559, 14199]];
 _this setMarkerShape "RECTANGLE";
 _this setMarkeralpha 0;
 _this setMarkerType "Flag";
 _this setMarkerBrush "Solid";
 _this setMarkerSize [10, 10];
-SAR_marker_DEBUG_devilscastle = _this;
+_this setMarkerDir 120.050;
+SAR_marker_sectorfng_front = _this;
+
+// Sector FNG - Back Base Patrol Area
+_this = createMarker ["SAR_marker_sectorfng_back", [6736.28, 14204.5]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [10, 10];
+_this setMarkerDir 270.050;
+SAR_marker_sectorfng_back = _this;
+
+// Sector FNG - Crate 1
+_this = createMarker ["SAR_marker_sectorfng_crate1", [6589.84, 14277.5]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [5, 5];
+_this setMarkerDir 120.050;
+SAR_marker_sectorfng_crate1 = _this;
+
+// Sector FNG - Crate 2
+_this = createMarker ["SAR_marker_sectorfng_crate2", [6785, 14319]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [5, 5];
+_this setMarkerDir 120.050;
+SAR_marker_sectorfng_crate2 = _this;
+
+// Sector FNG - Crate 3
+_this = createMarker ["SAR_marker_sectorfng_crate3", [6788, 14090]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [5, 5];
+_this setMarkerDir 120.050;
+SAR_marker_sectorfng_crate3 = _this;
+
+// Sector FNG - Crate 4
+_this = createMarker ["SAR_marker_sectorfng_crate4", [6668, 14128]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [5, 5];
+_this setMarkerDir 120.050;
+SAR_marker_sectorfng_crate4 = _this;
+
+// Sector FNG - Crate 5
+_this = createMarker ["SAR_marker_sectorfng_crate5", [6660, 14182]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [3, 3];
+_this setMarkerDir 120.050;
+SAR_marker_sectorfng_crate5 = _this;
+
 
 diag_log format["SAR_AI: Static spawning area definition finished"];
 
@@ -253,14 +306,6 @@ diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 [SAR_marker_helipatrol_eastcoast,1,true] call SAR_AI_heli;
 [SAR_marker_helipatrol_eastcoast,1,true] call SAR_AI_heli;
 
-
-// example war scenario in the northwest. Comment OUT after having had a look at it!
-[SAR_marker_DEBUG_veh,1,true,30] call SAR_AI_heli;
-[SAR_marker_DEBUG_veh,1,true,30] call SAR_AI_heli;
-[SAR_marker_DEBUG_veh,3,true,30] call SAR_AI_heli;
-[SAR_marker_DEBUG_veh,3,true,30] call SAR_AI_heli;
-
-
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 //---------------------------------------------------------------------------------
@@ -307,12 +352,14 @@ diag_log format["SAR_AI: Static Spawning for infantry patrols started"];
 
 [SAR_marker_DEBUG_devilscastle,1,0,6,"fortify",true] call SAR_AI;
 
-// example war scenario in the northwest. Comment OUT after having had a look at it!
-[SAR_marker_DEBUG_veh,1,0,9,"patrol",true] call SAR_AI;
-[SAR_marker_DEBUG_veh,2,0,9,"patrol",true] call SAR_AI;
-[SAR_marker_DEBUG_veh,3,0,9,"patrol",true] call SAR_AI;
-[SAR_marker_DEBUG_veh,3,0,9,"patrol",true] call SAR_AI;
- 
+//Sector FNG Stuff
+[SAR_marker_sectorfng_front,1,0,15,"fortify",false] call SAR_AI;
+[SAR_marker_sectorfng_back,1,0,15,"fortify",false] call SAR_AI;
+[SAR_marker_sectorfng_crate1,1,1,4,"fortify",false] call SAR_AI;
+[SAR_marker_sectorfng_crate2,1,1,4,"fortify",false] call SAR_AI;
+[SAR_marker_sectorfng_crate3,1,1,4,"fortify",false] call SAR_AI;
+[SAR_marker_sectorfng_crate4,1,1,4,"fortify",false] call SAR_AI;
+[SAR_marker_sectorfng_crate5,1,1,4,"fortify",false] call SAR_AI;
 
 diag_log format["SAR_AI: Static Spawning for infantry patrols finished"];
 

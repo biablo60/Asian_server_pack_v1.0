@@ -50,7 +50,7 @@ switch (_grouptype) do
 {
     case 1: // military
     {
-        _side = SAR_AI_friendly_side;
+        _side = SAR_AI_unfriendly_side;
         _type = "sold";
         _ai_type = "AI Military";
     };
@@ -90,7 +90,6 @@ _group setVariable ["SAR_protect",true,true];
 
 // create leader of the group
 _leader = _group createunit [_leader_group, [(_rndpos select 0) , _rndpos select 1, 0], [], 0.5, "NONE"];
-
 _leader_weapon_names = ["leader",_type] call SAR_unit_loadout_weapons;
 _leader_items = ["leader",_type] call SAR_unit_loadout_items;
 _leader_tools = ["leader",_type] call SAR_unit_loadout_tools;
@@ -181,7 +180,6 @@ for "_i" from 0 to (_snipers - 1) do
 for "_i" from 0 to (_riflemen - 1) do
 {
     _this = _group createunit [_riflemenlist call SAR_fnc_selectRandom, [(_rndpos select 0) , _rndpos select 1, 0], [], 0.5, "NONE"];
-
     _soldier_items = ["rifleman",_type] call SAR_unit_loadout_items;
     _soldier_tools = ["rifleman",_type] call SAR_unit_loadout_tools;
     _soldier_weapon_names = ["rifleman",_type] call SAR_unit_loadout_weapons;

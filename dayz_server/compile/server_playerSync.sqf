@@ -1,4 +1,4 @@
-private ["_characterID","_temp","_currentWpn","_magazines","_force","_isNewPos","_humanity","_isNewGear","_currentModel","_modelChk","_playerPos","_playerGear","_playerBackp","_backpack","_killsB","_killsH","_medical","_isNewMed","_character","_timeSince","_charPos","_isInVehicle","_distanceFoot","_lastPos","_kills","_headShots","_timeGross","_timeLeft","_onLadder","_isTerminal","_currentAnim","_muzzles","_array","_key","_lastTime","_config","_currentState","_pos"];
+private ["_character","_magazines","_force","_characterID","_charPos","_isInVehicle","_timeSince","_humanity","_debug","_distance","_isNewMed","_isNewPos","_isNewGear","_playerPos","_playerGear","_playerBackp","_medical","_distanceFoot","_lastPos","_backpack","_kills","_killsB","_killsH","_headShots","_lastTime","_timeGross","_timeLeft","_currentWpn","_currentAnim","_config","_onLadder","_isTerminal","_currentModel","_modelChk","_muzzles","_temp","_currentState","_array","_key","_pos","_forceGear"];
 //[player,array]
 //diag_log ("UPDATE: " + str(_this) );
 
@@ -19,7 +19,8 @@ private ["_characterID","_temp","_currentWpn","_magazines","_force","_isNewPos",
 
 _character = 	_this select 0;
 _magazines =	_this select 1;
-_force =	_this select 2;
+//_force = 		_this select 2;
+_forceGear =	_this select 3;
 _force =	true;
 
 _characterID =	_character getVariable ["characterID","0"];
@@ -93,10 +94,10 @@ if (_characterID != "0") then {
 		};
 		_character setVariable ["posForceUpdate",false,true];
 	};
-	if (_isNewGear) then {
+	if (_isNewGear or _forceGear) then {
 		//diag_log ("gear..."); sleep 0.05;
 		_playerGear = [weapons _character,_magazines];
-//diag_log ("playerGear: " +str(_playerGear));
+		//diag_log ("playerGear: " +str(_playerGear));
 		_backpack = unitBackpack _character;
 		_playerBackp = [typeOf _backpack,getWeaponCargo _backpack,getMagazineCargo _backpack];
 	};
@@ -169,7 +170,7 @@ if (_characterID != "0") then {
 				};	
 			} else {
 				//diag_log ("DW_DEBUG: _currentWpn: " + str(_currentWpn));
-			_currentWpn = "";
+				_currentWpn = "";
 			};
 		};
 		_temp = round(_character getVariable ["temperature",100]);
@@ -180,7 +181,7 @@ if (_characterID != "0") then {
 		if (count _playerPos > 0) then {
 			_array = [];
 			{
-				if (_x > -20000 and _x < 20000) then {
+				if (_x > dayz_minpos and _x < dayz_maxpos) then {
 					_array set [count _array,_x];
 				};
 			} forEach (_playerPos select 1);
@@ -195,17 +196,21 @@ if (_characterID != "0") then {
 				_key call server_hiveWrite;
 			};
 		};
-		
+
 		// If player is in a vehicle, keep its position updated
 		if (vehicle _character != _character) then {
-			[vehicle _character, "position"] call server_updateObject;
+//			[vehicle _character, "position"] call server_updateObject;
+			if (!(vehicle _character in needUpdate_objects)) then {
+				//diag_log format["DEBUG: Added to NeedUpdate=%1",_object];
+				needUpdate_objects set [count needUpdate_objects, vehicle _character];
+			};
 		};
 		
 		// Force gear updates for nearby vehicles/tents
 		_pos = _this select 0;
 		{
 			[_x, "gear"] call server_updateObject;
-		} forEach nearestObjects [_pos, ["Car", "Helicopter", "Motorcycle", "Ship", "TentStorage", "StashSmall","StashMedium"], 10];
+		} forEach nearestObjects [_pos, dayz_updateObjects, 10];
 		//[_charPos] call server_updateNearbyObjects;
 
 		//Reset timer

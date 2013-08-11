@@ -50,7 +50,7 @@ fnc_debug = {
         <t size='1' font='Bitstream' align='left' color='#104E8B' >FPS: </t><t size='1' font='Bitstream' align='right' color='#104E8B' >%10</t><br/>
         <img size='3' image='%13'/><br/>
         <t size='1'font='Bitstream'align='left' color='#FF00FF' >Press F10 to toggle! </t><br/>
- 
+
         ",dayz_playerName,r_player_blood,round _humanity,_killsH,_killsB,_kills,_headShots,count entities "zZombie_Base",{alive _x} count entities "zZombie_Base",diag_fps,_banditCount,_heroCount,_pic];
     sleep 1;
     };

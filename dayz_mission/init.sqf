@@ -1,30 +1,94 @@
-/*
-	INITILIZATION
+/*	
+  READ!!!!!!!!!!!!!!!!!!!!                                           READ!!!!!!!!!!!!!!!!!!!!                                                         READ!!!!!!!!!!!!!!!!!!!!
+	Asian Server Pack By B6 Media (Asian Kid)
+	I hope you enjoy the pack ;)
+	Any bugs or something not working contact me on the fourms or email
+	Email = biablo60@gmail.com
+	
+	Most of the scripts can be found in the custom folder
+	
+	Only modify in the 
+	//////////////
+	Stuff
+	//////////////
+	
+	To turn off any script place // infront of it 
+	Expample
+	//[] execVM "custom\effects.sqf";
+	dayzPlayerLogin2
+	To Change the loadingscreen, place your new picture in custom (needs to be 2048x1024)
 */
 startLoadingScreen ["","RscDisplayLoadCustom"];
 cutText ["","BLACK OUT"];
 enableSaving [false, false];
 
+///////////////////////////////////////////////////////////////////////////////////////////
 //REALLY IMPORTANT VALUES
-dayZ_instance = 3969;					// The instance
-//dayZ_serverName = "UK1337";			// server name (country code + server number)
+dayZ_instance =	00;					//The instance
+///////////////////////////////////////////////////////////////////////////////////////////
+//CHANGE ME TO MAKE IT WORK WITH YOUR DATA BASE!!!!!!
+///////////////////////////////////////////////////////////////////////////////////////////
 dayzHiveRequest = [];
 initialized = false;
 dayz_previousID = 0;
-
-//disable greeting menu
+///////////////////////////////////////////////////////////////////////////////////////////
+//disable greeting menu 
 player setVariable ["BIS_noCoreConversations", true];
 //disable radio messages to be heard and shown in the left lower corner of the screen
-//enableRadio false;
+enableRadio true;
+///////////////////////////////////////////////////////////////////////////////////////////
+//Change me to ture if you want death messages (enableRadio true;)
+///////////////////////////////////////////////////////////////////////////////////////////
+// DayZ Epoch config
+spawnShoremode = 0; // Default = 1 (on shore)
+spawnArea= 1500; // Default = 1500
+MaxHeliCrashes= 5; // Default = 5
+MaxVehicleLimit = 450; // Default = 50
+MaxDynamicDebris = 100; // Default = 100
+dayz_MapArea = 10000; // Default = 10000
+dayz_maxLocalZombies = 30; // Default = 30 
+dayz_maxAnimals = 10;
+///////////////////////////////////////////////////////////////////////////////////////////
+dayz_maxZeds = 300;
+dayz_sellDistance = 30;
+dayz_zedsAttackVehicles = false;
+DZE_TRADER_SPAWNMODE = true;
+dayz_tameDogs = true;
+OldHeliCrash = false;
+///////////////////////////////////////////////////////////////////////////////////////////
+DZE_DeathMsgTitleText = true;
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is the death messages
+///////////////////////////////////////////////////////////////////////////////////////////
+// Loadout config
+DefaultMagazines = ["ItemBandage","ItemBandage","ItemMorphine","ItemPainkiller","ItemGoldBar"];
+DefaultWeapons = ["ItemMap","ItemFlashlight","ItemHatchet"];
+DefaultBackpack = "US_Assault_Pack_EP1";
+DefaultBackpackWeapon = "";
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is the custom soawn load out
+//you may change it to what ever you want
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+EpochEvents = [["any","any","any","any",0,"hello_world"],["any","any","any","any",30,"crash_spawner"],["any","any","any","any",0,"crash_spawner"]];
+///////////////////////////////////////////////////////////////////////////////////////////
+//This will fire the hello_word.sqf and crash_spawner.sqf found inside the servers modules folder at the top of the hour and crash_spawner.sqf again on 30.
+///////////////////////////////////////////////////////////////////////////////////////////
 
 //Load in compiled functions
 call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\variables.sqf";				//Initilize the Variables (IMPORTANT: Must happen very early)
 progressLoadingScreen 0.1;
-call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\publicEH.sqf";					//Initilize the publicVariable event handlers
+call compile preprocessFileLineNumbers "dayz_code\init\publicEH.sqf";				//Initilize the publicVariable event handlers
 progressLoadingScreen 0.2;
 call compile preprocessFileLineNumbers "\z\addons\dayz_code\medical\setup_functions_med.sqf";	//Functions used by CLIENT for medical
 progressLoadingScreen 0.4;
-call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\compiles.sqf";					//Compile regular functions
+call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\compiles.sqf";				//Compile regular functions
+progressLoadingScreen 0.5;
+call compile preprocessFileLineNumbers "server_traders.sqf";				//Compile trader configs
+call compile preprocessFileLineNumbers "dayz_code\init\variables.sqf"; //Initializes custom variables
+call compile preprocessFileLineNumbers "dayz_code\init\compiles.sqf"; //Compile custom compiles
+call compile preprocessFileLineNumbers "dayz_code\init\settings.sqf"; //Initialize custom clientside settings
 progressLoadingScreen 1.0;
 
 "filmic" setToneMappingParams [0.153, 0.357, 0.231, 0.1573, 0.011, 3.750, 6, 4]; setToneMapping "Filmic";
@@ -60,19 +124,21 @@ BIS_Effects_startEvent = {
 
 if ((!isServer) && (isNull player) ) then
 {
-	waitUntil {!isNull player};
-	waitUntil {time > 3};
+waitUntil {!isNull player};
+waitUntil {time > 3};
 };
 
 if ((!isServer) && (player != player)) then
 {
-	waitUntil {player == player};
-	waitUntil {time > 3};
+  waitUntil {player == player}; 
+  waitUntil {time > 3};
 };
 
 if (isServer) then {
-	_serverMonitor = [] execVM "\z\addons\dayz_code\system\server_monitor.sqf";
-	"PVDZ_sec_atp" addPublicVariableEventHandler { diag_log format["%1", _this select 1];};
+	call compile preprocessFileLineNumbers "dynamic_vehicle.sqf";				//Compile vehicle configs
+	// Add trader citys
+	_nil = [] execVM "mission.sqf";
+	_serverMonitor = 	[] execVM "\z\addons\dayz_code\system\server_monitor.sqf";
 };
 
 if (!isDedicated) then {
@@ -80,27 +146,63 @@ if (!isDedicated) then {
 	0 fadeSound 0;
 	waitUntil {!isNil "dayz_loadScreenMsg"};
 	dayz_loadScreenMsg = (localize "STR_AUTHENTICATING");
-
-	//Run the player monitor
-	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
-	_playerMonitor = [] execVM "\z\addons\dayz_code\system\player_monitor.sqf";
+	
+	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death; _nul = [] execVM "addin\plrInit.sqf";}];
+    //_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
+    _playerMonitor =[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";
+    _void = [] execVM "R3F_Realism\R3F_Realism_Init.sqf";
 };
 
-// Logo watermark: adding a logo in the bottom left corner of the screen with the server name in it
-if (!isNil "dayZ_serverName") then {
-	[] spawn {
-		waitUntil {(!isNull Player) and (alive Player) and (player == player)};
-		waituntil {!(isNull (findDisplay 46))};
-		5 cutRsc ["wm_disp","PLAIN"];
-		((uiNamespace getVariable "wm_disp") displayCtrl 1) ctrlSetText dayZ_serverName;
-	};
+//Addons Below
+///////////////////////////////////////////////////////////////////////////////////////////
+if (!isDedicated) then {
+//Lights
+[] execVM "custom\tower_lights.sqf";             //Tower lights
+[] execVM "custom\change_streetlights.sqf";     //House lights
+//color corrections
+[] execVM "custom\effects.sqf";                 //color corrections
 };
-//Addons
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is the lights and color corrections
+///////////////////////////////////////////////////////////////////////////////////////////
+//scripts
 [] execVM "custom\custom_monitor.sqf";                   //debug
+[] execVM "R3F_ARTY_AND_LOG\init.sqf";                  //Tow/lift
 [] ExecVM "custom\kh_actions.sqf";                      //Auto refuel
-//Map addons
-[] execVM "buildings\excbridge.sqf";
+[] ExecVM "BTK\Cargo Drop\Start.sqf";                  //cargo drop
+[] execVM "custom\safezone.sqf";                       //safezones
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is the Auto refuel, debug monitor, cargo drop, safezones and tow/lift
+///////////////////////////////////////////////////////////////////////////////////////////
+//SavCity
+[] execVM "sectorfng\marker.sqf";
+[] execVM "sectorfng\crates.sqf";
+[] execVM "sectorfng\sectorfng.sqf";
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is the Fallen city made by paddy1223
+///////////////////////////////////////////////////////////////////////////////////////////
 //AI
 call compile preprocessFileLineNumbers "addons\UPSMON\scripts\Init_UPSMON.sqf";
 call compile preprocessfile "addons\SHK_pos\shk_pos_init.sqf";
 [] execVM "addons\SARGE\SAR_AI_init.sqf";
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is Sarge AI must be on for the dayz mission system to work
+//I modded the defualt AI to work with Fallen city
+//There is a defualt functions you can use or keep the one I have
+//The modded one doesn't spawn AI in towns
+///////////////////////////////////////////////////////////////////////////////////////////
+[] ExecVM "buildings\buildings.sqf";
+[] ExecVM "buildings\villages.sqf";
+///////////////////////////////////////////////////////////////////////////////////////////
+//The map addons above were made by Bungle
+///////////////////////////////////////////////////////////////////////////////////////////
+//Map addons
+[] execVM "buildings\excbridge.sqf";
+[] ExecVM "buildings\fightyard.sqf";
+[] execVM "buildings\necamp.sqf";
+[] ExecVM "buildings\devilscastle.sqf";
+[] ExecVM "buildings\skal.sqf";
+[] ExecVM "buildings\devfish_camptents.sqf";
+///////////////////////////////////////////////////////////////////////////////////////////
+//Above is the custom map you can remove any
+///////////////////////////////////////////////////////////////////////////////////////////
