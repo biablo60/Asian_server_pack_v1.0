@@ -3,6 +3,15 @@ Asian_server_pack
 
 This is made by B6 Media (Asian Kid) for Cherno Epoch
 You may change the loading screen but not edit mine must make your own
+http://dayzepoch.com/forum/index.php?/topic/945-release-asian-server-pack/
+
+My webiste
+http://15647b.bodisparking.com/dayzfallendead.cu.cc
+
+My Server
+5.63.144.180:3170
+
+This works 100% besides the bugs so don't bug me so much
 
 HOW TO INSTALL
  
